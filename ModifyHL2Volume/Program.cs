@@ -17,7 +17,6 @@ static class NekoUtils
 				for( int j = i + 1; j < line.Length; ++j )
 				{
 					var c2 = line[j];
-					// if( c2 == '\t' || c2 == 'v' ) break;
 					if( !( Char.IsNumber( c2 ) || c2 == '.' || c2 == '"' || c2 == ',' ) ) break;
 					if( c2 == '"' )
 					{
@@ -110,7 +109,6 @@ class Main
 			else modifiedLines.Add( line );
 		}
 
-		// todo: dupe old file & add _old, overwrite existing file
 		var modsPath = "custom/my_mods/scripts/";
 		var newFilePath = modsPath + filePath;
 		if( !Directory.Exists( modsPath ) ) Directory.CreateDirectory( modsPath );
