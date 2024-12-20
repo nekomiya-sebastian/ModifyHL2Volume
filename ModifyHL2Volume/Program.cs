@@ -52,8 +52,8 @@ static class NekoUtils
 			}
 			catch( Exception )
 			{
-				Console.WriteLine( "Invalid line input, unable to modify volume! Attempted parse value: <" +
-					curVal + "> Line: <" + line + ">" );
+				Console.WriteLine( "Invalid line input, unable to modify volume! Attempted parse value: \"" +
+					curVal + "\" Line: " + line );
 				hadError = true;
 			}
 		}
