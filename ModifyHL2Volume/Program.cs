@@ -22,8 +22,8 @@ static class NekoUtils
 					{
 						vals.Add( val );
 						inds.Add( j - val.Length );
-						j = 9999;
-						i = 9999;
+						j = line.Length + 1;
+						i = line.Length + 1;
 					}
 					else if( c2 == ',' )
 					{
