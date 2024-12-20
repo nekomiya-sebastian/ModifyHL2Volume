@@ -44,10 +44,17 @@ static class NekoUtils
 		{
 			var curVal = vals[i];
 			var curInd = inds[i];
-			var newVal = float.Parse( curVal ) * modifyAmount;
-
-			newLine = newLine.Remove( curInd,curVal.Length );
-			newLine = newLine.Insert( curInd,newVal.ToString( "0.##" ) );
+			try
+			{
+				var newVal = float.Parse( curVal ) * modifyAmount;
+				newLine = newLine.Remove( curInd,curVal.Length );
+				newLine = newLine.Insert( curInd,newVal.ToString( "0.##" ) );
+			}
+			catch( Exception )
+			{
+				Console.WriteLine( "Invalid line input, unable to modify volume! Attempted parse value: <" +
+					curVal + "> Line: <" + line + ">" );
+			}
 		}
 
 		return( newLine );
