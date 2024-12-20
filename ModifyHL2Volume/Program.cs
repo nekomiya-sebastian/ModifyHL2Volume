@@ -92,48 +92,49 @@ class Main
 		
 		var filePath = "game_sounds_weapons.txt";
 		var scriptsPath = "scripts/";
+		bool hadError = false;
 		if( !File.Exists( scriptsPath + filePath ) )
 		{
-			Console.Write( "Couldn't find file!" );
-			return;
+			Console.WriteLine( "Couldn't find file!" );
+			hadError = true;
 		}
-		
-		var reader = new StreamReader( scriptsPath + filePath );
-		var lines = new List<string>();
-		while( !reader.EndOfStream )
+		else
 		{
-			var line = reader.ReadLine();
-			if( line != null ) lines.Add( line );
-		}
-		
-		var modifiedLines = new List<string>();
-		
-		bool parseError = false;
-		foreach( var line in lines )
-		{
-			if( line.Contains( "\"volume\"") )
+			var reader = new StreamReader( scriptsPath + filePath );
+			var lines = new List<string>();
+			while( !reader.EndOfStream )
 			{
-				modifiedLines.Add( NekoUtils.ModifyLine( line,volModifyPercent,ref parseError ) );
+				var line = reader.ReadLine();
+				if( line != null ) lines.Add( line );
 			}
-			else modifiedLines.Add( line );
+			
+			var modifiedLines = new List<string>();
+			
+			foreach( var line in lines )
+			{
+				if( line.Contains( "\"volume\"") )
+				{
+					modifiedLines.Add( NekoUtils.ModifyLine( line,volModifyPercent,ref hadError ) );
+				}
+				else modifiedLines.Add( line );
+			}
+
+			var modsPath = "custom/my_mods/scripts/";
+			var newFilePath = modsPath + filePath;
+			if( !Directory.Exists( modsPath ) ) Directory.CreateDirectory( modsPath );
+			StreamWriter writer;
+			if( !File.Exists( newFilePath ) ) writer = File.CreateText( newFilePath );
+			else writer = new StreamWriter( newFilePath );
+
+			foreach( var line in modifiedLines )
+			{
+				writer.WriteLine( line );
+			}
 		}
 
-		var modsPath = "custom/my_mods/scripts/";
-		var newFilePath = modsPath + filePath;
-		if( !Directory.Exists( modsPath ) ) Directory.CreateDirectory( modsPath );
-		StreamWriter writer;
-		if( !File.Exists( newFilePath ) ) writer = File.CreateText( newFilePath );
-		else writer = new StreamWriter( newFilePath );
-
-		foreach( var line in modifiedLines )
+		if( hadError )
 		{
-			writer.WriteLine( line );
-		}
-
-		if( parseError )
-		{
-			Console.WriteLine( "Encountered parse errors!" );
-			Console.ReadLine();
+			Console.WriteLine( "Encountered error(s)! (Press enter to exit)" );
 			Console.ReadLine();
 		}
 	}
