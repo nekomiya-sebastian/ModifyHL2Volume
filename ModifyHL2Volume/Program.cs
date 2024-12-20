@@ -2,7 +2,7 @@
 
 static class NekoUtils
 {
-	public static string ModifyLine( string line,float modifyAmount )
+	public static string ModifyLine( string line,float modifyAmount,ref bool hadError )
 	{
 		var vals = new List<string>();
 		var inds = new List<int>();
@@ -54,6 +54,7 @@ static class NekoUtils
 			{
 				Console.WriteLine( "Invalid line input, unable to modify volume! Attempted parse value: <" +
 					curVal + "> Line: <" + line + ">" );
+				hadError = true;
 			}
 		}
 
@@ -107,11 +108,12 @@ class Main
 		
 		var modifiedLines = new List<string>();
 		
+		bool parseError = false;
 		foreach( var line in lines )
 		{
 			if( line.Contains( "\"volume\"") )
 			{
-				modifiedLines.Add( NekoUtils.ModifyLine( line,volModifyPercent ) );
+				modifiedLines.Add( NekoUtils.ModifyLine( line,volModifyPercent,ref parseError ) );
 			}
 			else modifiedLines.Add( line );
 		}
@@ -126,6 +128,13 @@ class Main
 		foreach( var line in modifiedLines )
 		{
 			writer.WriteLine( line );
+		}
+
+		if( parseError )
+		{
+			Console.WriteLine( "Encountered parse errors!" );
+			Console.ReadLine();
+			Console.ReadLine();
 		}
 	}
 }
