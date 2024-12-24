@@ -2,6 +2,11 @@
 
 static class NekoUtils
 {
+	public static float SafeParse( string val )
+	{
+		return( float.Parse( val[0] == '.' ? "0" + val : val ) );
+	}
+
 	public static string ModifyLine( string line,float modifyAmount,ref bool hadError )
 	{
 		var vals = new List<string>();
@@ -46,7 +51,7 @@ static class NekoUtils
 			var curInd = inds[i];
 			try
 			{
-				var newVal = float.Parse( curVal ) * modifyAmount;
+				var newVal = NekoUtils.SafeParse( curVal ) * modifyAmount;
 				newLine = newLine.Remove( curInd,curVal.Length );
 				newLine = newLine.Insert( curInd,newVal.ToString( "0.##" ) );
 			}
@@ -75,7 +80,7 @@ class Main
 			if( result == null ) continue;
 			try
 			{
-				volModifyPercent = float.Parse( result );
+				volModifyPercent = NekoUtils.SafeParse( result );
 				if( volModifyPercent < 0 )
 				{
 					Console.Write( "You can't make a negative sound, baka! " );
