@@ -1,10 +1,12 @@
-﻿Main.Go();
+﻿using System.Globalization;
+
+Main.Go();
 
 static class NekoUtils
 {
 	public static float SafeParse( string val )
 	{
-		return( float.Parse( val[0] == '.' ? "0" + val : val ) );
+		return( float.Parse( val[0] == '.' ? "0" + val : val,CultureInfo.InvariantCulture ) );
 	}
 
 	public static string ModifyLine( string line,float modifyAmount,ref bool hadError )
@@ -53,7 +55,7 @@ static class NekoUtils
 			{
 				var newVal = NekoUtils.SafeParse( curVal ) * modifyAmount;
 				newLine = newLine.Remove( curInd,curVal.Length );
-				newLine = newLine.Insert( curInd,newVal.ToString( "0.##" ) );
+				newLine = newLine.Insert( curInd,newVal.ToString( "0.##",CultureInfo.InvariantCulture ) );
 			}
 			catch( Exception )
 			{
