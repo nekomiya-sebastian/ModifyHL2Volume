@@ -1,9 +1,20 @@
-﻿Main.Go();
+﻿using System.Globalization;
+
+Main.Go();
 
 static class NekoUtils
 {
 	public static float SafeParse( string val )
 	{
+		foreach( char c in val )
+		{
+			if( !( Char.IsDigit( c ) || c == '.' ) )
+			{
+				Console.WriteLine( "Invalid character detected in parse input! Character: \"" + c +
+					"\" Char unicode value: " + CharUnicodeInfo.GetNumericValue( c ) );
+				throw( new Exception() );
+			}
+		}
 		return( float.Parse( val[0] == '.' ? "0" + val : val ) );
 	}
 
@@ -73,19 +84,20 @@ class Main
 	{
 		bool readInput = false;
 		float volModifyPercent = 0.0f;
-		Console.Write( "Input volume modify % (0-1): " );
+		Console.Write( "Input volume modify % 0-100 (no dots): " );
 		while( !readInput )
 		{
 			var result = Console.ReadLine();
 			if( result == null ) continue;
 			try
 			{
-				volModifyPercent = NekoUtils.SafeParse( result );
-				if( volModifyPercent < 0 )
+				int intResult = int.Parse( result );
+				if( intResult < 0 || intResult > 100 )
 				{
-					Console.Write( "You can't make a negative sound, baka! " );
+					Console.Write( "Please input a value between 0 and 100: " );
 					throw( new Exception() );
 				}
+				else volModifyPercent = ( ( float )int.Parse( result ) ) / 100.0f;
 			}
 			catch( Exception )
 			{
