@@ -73,7 +73,7 @@ class Main
 	{
 		bool readInput = false;
 		float volModifyPercent = 0.0f;
-		Console.Write( "Input volume modify % (0-1):" );
+		Console.Write( "Input volume modify % (0-1): " );
 		while( !readInput )
 		{
 			var result = Console.ReadLine();
