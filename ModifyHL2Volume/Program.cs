@@ -22,7 +22,7 @@ static class NekoUtils
 				for( int j = i + 1; j < line.Length; ++j )
 				{
 					var c2 = line[j];
-					if( !( Char.IsNumber( c2 ) || c2 == '.' || c2 == '"' || c2 == ',' ) ) break;
+					if( !( Char.IsDigit( c2 ) || c2 == '.' || c2 == '"' || c2 == ',' ) ) break;
 					if( c2 == '"' )
 					{
 						vals.Add( val );
